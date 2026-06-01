@@ -1,114 +1,105 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const track = document.querySelector('.slider-track');
-    const slides = Array.from(track.children);
-    const nextButton = document.querySelector('.slider-button.next');
-    const prevButton = document.querySelector('.slider-button.prev');
-    const dotsNav = document.querySelector('.slider-nav');
-    const dots = Array.from(dotsNav.children);
+/* ═══════════════════════════════════════════════════════════════
+   index.js — NtApKC interactive layer
+   Handles: mouse-glow · tentacle spawn · bracket draw · entrance
+   ═══════════════════════════════════════════════════════════════ */
 
-    if (slides.length === 0) return;
+(function () {
+  const prefersReduced =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    let slideWidth = slides[0].getBoundingClientRect().width;
-    let currentSlide = 0;
-
-    window.addEventListener('resize', () => {
-        slideWidth = slides[0].getBoundingClientRect().width;
-        gsap.set(track, { x: -slideWidth * currentSlide });
+  /* ── Mouse-tracking background glow ──────────────────────── */
+  if (!prefersReduced) {
+    document.addEventListener('mousemove', (e) => {
+      document.body.style.setProperty(
+        '--mx', `${((e.clientX / innerWidth) * 100).toFixed(1)}%`
+      );
+      document.body.style.setProperty(
+        '--my', `${((e.clientY / innerHeight) * 100).toFixed(1)}%`
+      );
     });
 
-    const moveToSlide = (targetSlide) => {
-        gsap.to(track, {
-            duration: 0.6,
-            x: -slideWidth * targetSlide,
-            ease: "power2.inOut"
-        });
-        currentSlide = targetSlide;
-        updateDots(targetSlide);
-        updateNavButtons(targetSlide);
-    };
-
-    const updateDots = (targetIndex) => {
-        dots.forEach(dot => dot.classList.remove('active'));
-        dots[targetIndex].classList.add('active');
-    };
-
-    const updateNavButtons = (targetIndex) => {
-        prevButton.classList.toggle('hidden', targetIndex === 0);
-        nextButton.classList.toggle('hidden', targetIndex === slides.length - 1);
-    };
-
-    nextButton.addEventListener('click', () => {
-        if (currentSlide < slides.length - 1) moveToSlide(currentSlide + 1);
-    });
-
-    prevButton.addEventListener('click', () => {
-        if (currentSlide > 0) moveToSlide(currentSlide - 1);
-    });
-
-    dotsNav.addEventListener('click', (e) => {
-        const targetDot = e.target.closest('button.slider-dot');
-        if (!targetDot) return;
-        const targetIndex = dots.findIndex(dot => dot === targetDot);
-        moveToSlide(targetIndex);
-    });
-
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    track.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, {passive: true});
-
-    track.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, {passive: true});
-
-    const handleSwipe = () => {
-        const swipeThreshold = 50;
-        if (touchEndX < touchStartX - swipeThreshold) {
-            if (currentSlide < slides.length - 1) moveToSlide(currentSlide + 1);
-        }
-        if (touchEndX > touchStartX + swipeThreshold) {
-            if (currentSlide > 0) moveToSlide(currentSlide - 1);
-        }
-    };
-
-    gsap.fromTo('.site-container', {opacity: 0}, {duration: 1, opacity: 1});
-    gsap.fromTo('.splash-slide h3', {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 1, delay: 0.5});
-
-    updateNavButtons(0);
-
-    // Interactive Background Animation
-    const body = document.body;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!prefersReducedMotion) {
-        window.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth) * 100 + '%';
-            const y = (e.clientY / window.innerHeight) * 100 + '%';
-
-            gsap.to(body, {
-                '--mouse-x': x,
-                '--mouse-y': y,
-                duration: 1.2,
-                ease: "power2.out"
-            });
-        });
-    }
-
+    /* Glow pulse on click */
     window.addEventListener('mousedown', () => {
-        gsap.to(body, {
-            '--grad-size': '110%',
-            duration: 0.2,
-            ease: "power2.out",
-            onComplete: () => {
-                gsap.to(body, {
-                    '--grad-size': '80%',
-                    duration: 0.8,
-                    ease: "power2.out"
-                });
-            }
-        });
+      gsap.to(document.body, {
+        '--bg-glow': '#036b58',
+        duration: 0.18,
+        ease: 'power2.out',
+        onComplete: () => {
+          gsap.to(document.body, {
+            '--bg-glow': '#024034',
+            duration: 0.9,
+            ease: 'power2.out'
+          });
+        }
+      });
     });
-});
+  }
+
+  /* ── Tentacle spawn ───────────────────────────────────────── */
+  const host = document.getElementById('tentacles');
+  if (host) {
+    const n = innerWidth < 700 ? 10 : 18;
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement('span');
+      el.className = 'tentacle';
+      el.style.setProperty('--x',   `${(Math.random() * 100).toFixed(1)}%`);
+      el.style.setProperty('--len', `${(28 + Math.random() * 42).toFixed(1)}vh`);
+      el.style.setProperty('--rot', `${(3  + Math.random() * 10).toFixed(1)}deg`);
+      el.style.setProperty('--dur', `${(4  + Math.random() *  6).toFixed(1)}s`);
+      el.style.opacity = (0.25 + Math.random() * 0.50).toFixed(2);
+      el.style.animationDelay = `${(Math.random() * 4).toFixed(2)}s`;
+      host.appendChild(el);
+    }
+  }
+
+  /* ── GSAP entrance + bracket line-draw ───────────────────── */
+  window.addEventListener('load', () => {
+    if (prefersReduced) return;
+
+    /* Corner bracket draw */
+    gsap.to('.bracket-path', {
+      strokeDashoffset: 0,
+      duration: 1.8,
+      ease: 'power2.out',
+      stagger: 0.25
+    });
+
+    /* Panel entrance */
+    gsap.from('.panel', {
+      opacity: 0,
+      y: 32,
+      duration: 1.1,
+      ease: 'power3.out',
+      delay: 0.35
+    });
+
+    /* Feature card stagger */
+    gsap.from('.feat', {
+      opacity: 0,
+      y: 20,
+      duration: 0.7,
+      ease: 'power2.out',
+      stagger: 0.15,
+      delay: 0.85
+    });
+
+    /* Serve-list pill stagger */
+    gsap.from('.serve-list li', {
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.5,
+      ease: 'back.out(1.5)',
+      stagger: 0.07,
+      delay: 1.2
+    });
+
+    /* CTA block */
+    gsap.from('.cta-block', {
+      opacity: 0,
+      y: 16,
+      duration: 0.8,
+      ease: 'power2.out',
+      delay: 1.6
+    });
+  });
+})();

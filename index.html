@@ -1,106 +1,107 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Handcrafted digital solutions from Kansas City. Secure, open-source, and human-centered.">
-    <title>NtApKC</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=abril-fatface:400|m-plus-code-latin:400,700|nunito-sans:300,400,700" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="nt.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="index.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Handcrafted digital solutions from Kansas City. Secure, open-source, and human-centered." />
+  <title>NtApKC — Nextech, Applied. Kansas City.</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link href="https://fonts.bunny.net/css?family=abril-fatface:400|m-plus-code-latin:400,700|nunito-sans:300,400,700" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="nt.css" />
 </head>
 <body>
-    <main class="site-container">
-        <header class="site-branding">
-            <div class="logo-container">
+  <a class="skip" href="#main">Skip to content</a>
 
-                <h1 class="header-text logo-type">
-                    <span class="highlight animate-gold">N</span><span class="city-blue animate-blue">t</span><span class="highlight animate-gold">A</span><span class="city-blue animate-blue">p</span><span class="highlight animate-gold">K</span><span class="highlight animate-gold">C</span>
-                </h1>
-                <p class="tagline">Nextech, Applied</p>
-            </div>
+  <!-- Tentacles (decorative, CSS-only animation) -->
+  <div id="tentacles" aria-hidden="true"></div>
 
-            <div class="header-text location-text">
-                <h1>
-                    <span class="highlight animate-gold">Kansas</span>
-                    <span class="city-blue animate-blue">City,</span>
-                    <span class="highlight animate-gold">Missouri</span>
-                </h1>
-                <p class="tagline">"The web built for humans."</p>
-            </div>
-        </header>
+  <!-- SVG corner brackets (GSAP line-draw on load) -->
+  <svg id="bracket-svg" aria-hidden="true"
+       viewBox="0 0 100 100" preserveAspectRatio="none">
+    <path class="bracket-path" id="br-tl"
+      d="M 8 2 L 2 2 L 2 22" vector-effect="non-scaling-stroke" />
+    <path class="bracket-path" id="br-br"
+      d="M 92 98 L 98 98 L 98 78" vector-effect="non-scaling-stroke" />
+    <path class="bracket-path" id="br-tr"
+      d="M 92 2 L 98 2 L 98 22" vector-effect="non-scaling-stroke"
+      style="opacity:0.12" />
+    <path class="bracket-path" id="br-bl"
+      d="M 8 98 L 2 98 L 2 78" vector-effect="non-scaling-stroke"
+      style="opacity:0.12" />
+  </svg>
 
-        <div class="slider-container">
-            <div class="slider-track">
-                <section class="slide splash-slide">
-                    <div class="slide-content">
-                        <h3>Handcrafted. Digital. Solutions.</h3>
-                        <p class="lead">
-                            Tech for the community.
-                            <span class="highlight-text">Real KC flavor.</span>
-                        </p>
-                        <p class="swipe-hint">Swipe / Click to Explore <span class="material-symbols-outlined inline-icon">arrow_forward</span></p>
-                    </div>
-                </section>
-                <section class="slide">
-                    <div class="slide-content">
-                        <h3>Who We Serve</h3>
-                        <p>We build for neighbors, not shareholders. We help:</p>
-                        <ul>
-                            <li>Artists, musicians, & venues</li>
-                            <li>Organizers & advocacy groups</li>
-                            <li>Neighborhood associations</li>
-                            <li>Indie businesses</li>
-                            <li>Visionaries</li>
-                        </ul>
-                    </div>
-                </section>
-                <section class="slide">
-                    <div class="slide-content">
-                        <h3>Our Code</h3>
-                        <div class="split-content">
-                            <div>
-                                <h4>Open Source</h4>
-                                <p>You own the code. We don't lock you in.</p>
-                            </div>
-                            <div>
-                                <h4>Modern</h4>
-                                <p>Fast, scalable, and secure cloud tools.</p>
-                            </div>
-                            <div>
-                                <h4>Ethical</h4>
-                                <p>Anti-fascist and human-centered. No cops.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="slide cta-slide">
-                    <div class="slide-content">
-                        <h3>Let's Build.</h3>
-                        <p class="lead highlight-text">Big ideas. Small budgets. We make it work.</p>
-                        <p>Need a secure, handcrafted solution? No templates. No bullshit.</p>
-                        <a href="mailto:together@ntapkc.com" class="button">
-                            <span class="material-symbols-outlined">email</span> together@ntapkc.com
-                        </a>
-                    </div>
-                </section>
-            </div>
-            <button class="slider-button prev" aria-label="Previous slide">
-                <span class="material-symbols-outlined">arrow_back_ios</span>
-            </button>
-            <button class="slider-button next" aria-label="Next slide">
-                <span class="material-symbols-outlined">arrow_forward_ios</span>
-            </button>
-            <div class="slider-nav">
-                <button class="slider-dot active" data-slide="0" aria-label="Go to slide 1"></button>
-                <button class="slider-dot" data-slide="1" aria-label="Go to slide 2"></button>
-                <button class="slider-dot" data-slide="2" aria-label="Go to slide 3"></button>
-                <button class="slider-dot" data-slide="3" aria-label="Go to slide 4"></button>
-            </div>
+  <main class="shell" id="main">
+    <div class="panel">
+
+      <!-- HERO -->
+      <span class="eyebrow">Kansas City, Missouri</span>
+
+      <h1 class="logo-type" aria-label="NtApKC">
+        <span class="g">N</span><span class="b">t</span><span class="g">A</span><span class="b">p</span><span class="g">K</span><span class="g">C</span>
+      </h1>
+
+      <p class="tagline">Nextech, Applied. &nbsp;&middot;&nbsp; The web built for humans.</p>
+
+      <div class="location" aria-label="Kansas City, Missouri">
+        <span class="g">Kansas</span>&nbsp;<span class="b">City,</span>&nbsp;<span class="g">Missouri</span>
+      </div>
+
+      <div class="divider" aria-hidden="true"></div>
+
+      <!-- FEATURES -->
+      <div class="features" role="list">
+        <div class="feat" role="listitem">
+          <div class="feat-title">Open Source</div>
+          <p>You own the code. We don’t lock you in — ever.</p>
         </div>
-    </main>
+        <div class="feat" role="listitem">
+          <div class="feat-title">Modern Stack</div>
+          <p>Fast, scalable, secure cloud tools built to last.</p>
+        </div>
+        <div class="feat" role="listitem">
+          <div class="feat-title">Human-Centered</div>
+          <p>Anti-fascist. Community-first. No dark patterns.</p>
+        </div>
+      </div>
+
+      <!-- WHO WE SERVE -->
+      <ul class="serve-list" aria-label="Who we serve">
+        <li>Artists &amp; Musicians</li>
+        <li>Venues</li>
+        <li>Organizers</li>
+        <li>Advocacy Groups</li>
+        <li>Neighborhood Associations</li>
+        <li>Indie Businesses</li>
+        <li>Visionaries</li>
+      </ul>
+
+      <!-- CTA -->
+      <div class="cta-block">
+        <h3>Let’s Build.</h3>
+        <p>Big ideas. Small budgets. No templates. No bullshit.</p>
+        <a href="mailto:together@ntapkc.com" class="btn">
+          <span class="material-symbols-outlined" aria-hidden="true">email</span>
+          together@ntapkc.com
+        </a>
+      </div>
+
+      <p class="foot">
+        <a href="https://ntapkc.com">ntapkc.com</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://distorted.work">distorted.work</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://kcmo.xyz">kcmo.xyz</a>
+      </p>
+
+    </div>
+  </main>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="index.js" defer></script>
 </body>
 </html>
